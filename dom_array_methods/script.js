@@ -12,14 +12,14 @@ getRandomUser();
 getRandomUser();
 
 //Fetch random user and add money
-async function getRandomUser () {
+async function getRandomUser() {
     const res = await fetch ('https://randomuser.me/api');
     const data = await res.json();
 
     const user = data.results[0];
 
     const newUser = {
-        name: `${user.name.last}`,
+        name: `${user.name.first} ${user.name.last}`,
         money: Math.floor(Math.random() * 1000000)
     };
 
@@ -35,19 +35,25 @@ function addData(obj) {
 
 
 //Update DOM
-function updateDOM(provideData = data) {
+function updateDOM(providedData = data) {
     //Clear the main div
     main.innerHTML = '<h2><strong>Person</strong>Wealth</h2>';
 
     providedData.forEach(item => {
         const element = document.createElement('div');
         element.classList.add('person');
-        element.innerHTML = `<strong>${item.name}</strong> ${item.money}`;
+        element.innerHTML = `<strong>${item.name}</strong> ${formatMoney(item.money)}`;
         main.appendChild(element);
     });
 }
 
+//Format number as money (from https://stackoverflow.com/questions/149055/how-to-format-numbers-as-currency-string)
+function formatMoney(number) {
+    return '$' + number.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');  // 12,345.67
+}
 
+//Event listeners
+addUserBtn.addEventListener('click', getRandomUser);
 
 
 
