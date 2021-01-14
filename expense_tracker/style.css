@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
 :root {
     --box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
@@ -41,7 +41,7 @@ h4 {
 }
 
 .inc-exp-container {
-    background-color: white;
+    background-color: #fff;
     box-shadow: var(--box-shadow);
     padding: 20px;
     display: flex;
@@ -78,7 +78,7 @@ label {
 }
 
 input[type='text'],
-input [type='number'] {
+input[type='number'] {
     border: 1px solid #dedede;
     border-radius: 2px;
     display: block;
@@ -91,7 +91,7 @@ input [type='number'] {
     cursor: pointer;
     background-color: #9c88ff;
     box-shadow: var(--box-shadow);
-    color: white;
+    color: #fff;
     border: 0;
     display: block;
     font-size: 16px;
@@ -100,7 +100,8 @@ input [type='number'] {
     width: 100%;
 }
 
-.btn:focus, .delete-btn:focus {
+.btn:focus,
+.delete-btn:focus {
     outline: 0;
 }
 
@@ -111,9 +112,9 @@ input [type='number'] {
 }
 
 .list li {
-    background-color: white;
+    background-color: #fff;
     box-shadow: var(--box-shadow);
-    color: #333333;
+    color: #333;
     display: flex;
     justify-content: space-between;
     position: relative;
@@ -131,9 +132,9 @@ input [type='number'] {
 
 .delete-btn {
     cursor: pointer;
-    background-color: #e75c3c;
+    background-color: #e74c3c;
     border: 0;
-    color: white;
+    color: #fff;
     font-size: 20px;
     line-height: 20px;
     padding: 2px 5px;
@@ -148,12 +149,3 @@ input [type='number'] {
 .list li:hover .delete-btn {
     opacity: 1;
 }
-
-
-
-
-
-
-
-
-
