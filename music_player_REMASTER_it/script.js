@@ -1,135 +1,110 @@
-const image = document.querySelector('img');
-const title = document.getElementById('title');
-const artist = document.getElementById('artist');
-const music = document.querySelector('audio');
-const progressContainer = document.getElementById('progress-container');
-const currentTimeEl = document.getElementById('time');
-const durationEl = document.getElementById('duration');
-const progress = document.getElementById('progress');
-const prevBtn = document.getElementById('prev');
+const musicContainer = document.getElementById('music-container');
 const playBtn = document.getElementById('play');
+const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 
-//Music
-const songs = [
-    {
-        name: 'brand_new_day',
-        displayName: 'Brand New Day',
-        artist: 'Ryan Star',
-    },
-    {
-        name: 'captains_dance',
-        displayName: 'Captain&#39s Dance',
-        artist: 'Marcus Warner',
-    },
-    {
-        name: 'numb',
-        displayName: 'Numb',
-        artist: 'Linkin Park',
-    },
-]
+const audio = document.getElementById('audio');
+const progress = document.getElementById('progress');
+const progressContainer = document.getElementById('progress-container');
+const title = document.getElementById('title');
+const cover = document.getElementById('cover');
 
+// Song titles
+const songs = ['brand-new-day', 'captains`s-dance', 'numb'];
 
-//Check if playing
-let isPlaying = false;
+// Keep track of song
+let songIndex = 2;
 
-//Play
-function playSong () {
-    isPlaying = true;
-    playBtn.classList.replace('fa-play', 'fa-pause');
-    playBtn.setAttribute('title', 'Pause')
-    music.play();
-}
+// Initially load song details into DOM
+loadSong(songs[songIndex]);
 
-//Pause
-function pauseSong () {
-    isPlaying = false;
-    playBtn.classList.replace('fa-pause', 'fa-play');
-    playBtn.setAttribute('title', 'Play')
-    music.pause();
-}
-
-// Play or Pause event listener
-playBtn.addEventListener('click', () => isPlaying ? pauseSong() : playSong());
-
-//Update DOM
+// Update song details
 function loadSong(song) {
-    title.textContent = song.displayName;
-    artist.textContent = song.artist;
-    music.scr = `music/${song.name}.mp3`;
-    image.src = `cover/${song.name}.jpg`;
+    title.innerText = song;
+    audio.src = `music/${song}.mp3`;
+    cover.src = `images/${song}.jpg`;
 }
 
-//Current Song
-let songIndex = 0;
+// Play song
+function playSong() {
+    musicContainer.classList.add('play');
+    playBtn.querySelector('i.fas').classList.remove('fa-play');
+    playBtn.querySelector('i.fas').classList.add('fa-pause');
 
-//Prev Song
+    audio.play();
+}
+
+// Pause song
+function pauseSong() {
+    musicContainer.classList.remove('play');
+    playBtn.querySelector('i.fas').classList.add('fa-play');
+    playBtn.querySelector('i.fas').classList.remove('fa-pause');
+
+    audio.pause();
+}
+
+// Previous song
 function prevSong() {
     songIndex--;
+
     if (songIndex < 0) {
         songIndex = songs.length - 1;
     }
+
     loadSong(songs[songIndex]);
+
     playSong();
 }
 
-//Next Song
+// Next song
 function nextSong() {
     songIndex++;
+
     if (songIndex > songs.length - 1) {
         songIndex = 0;
     }
+
     loadSong(songs[songIndex]);
+
     playSong();
 }
 
-//On load - Select First Song
-loadSong(songs[songIndex]);
-
-//Update progress bar and Time
-function updateProgressBar (e) {
-    if (isPlaying) {
-        const {duration,currentTime} = e.srcElement;
-        //Update progress bar width
-        const progressPercent = (currentTime/duration) * 100;
-        progress.style.width = `${progressPercent}%`;
-        //Calculate display for duration
-        const durationMinutes = Math.floor(duration / 60);
-        let durationSeconds = Math.floor(duration % 60);
-        if (durationSeconds < 10) {
-            durationSeconds = `0${durationSeconds}`;
-        }
-        //Delay switching duration element to avoid NaN
-        if (durationSeconds) {
-            durationEl.textContent = `${durationMinutes}:${durationSeconds}`;
-        }
-        //Calculate display for duration
-        const currentMinutes = Math.floor(currentTime / 60);
-        let currentSeconds = Math.floor(currentTime % 60);
-        if (currentSeconds < 10) {
-            currentSeconds = `0${currentSeconds}`;
-        }
-        currentTimeEl.textContent = `${currentMinutes}:${currentSeconds}`;
-    }
+// Update progress bar
+function updateProgress(e) {
+    const { duration, currentTime } = e.srcElement;
+    const progressPercent = (currentTime / duration) * 100;
+    progress.style.width = `${progressPercent}%`;
 }
 
-//Set progress bar
-function setProgressBar (e) {
+// Set progress bar
+function setProgress(e) {
     const width = this.clientWidth;
     const clickX = e.offsetX;
-    const {duration} = music;
-    music.currentTime = (clickX / width) * duration;
+    const duration = audio.duration;
+
+    audio.currentTime = (clickX / width) * duration;
 }
 
-//Event Listeners
+// Event listeners
+playBtn.addEventListener('click', () => {
+    const isPlaying = musicContainer.classList.contains('play');
+
+    if (isPlaying) {
+        pauseSong();
+    } else {
+        playSong();
+    }
+});
+
+// Change song
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
-music.addEventListener('ended', nextSong);
-music.addEventListener('timeupdate', updateProgressBar);
-progressContainer.addEventListener('click', setProgressBar);
 
+// Time/song update
+audio.addEventListener('timeupdate', updateProgress);
 
+// Click on progress bar
+progressContainer.addEventListener('click', setProgress);
 
-
-
-
+// Song ends
+audio.addEventListener('ended', nextSong);
