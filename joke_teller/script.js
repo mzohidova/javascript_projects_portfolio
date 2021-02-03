@@ -2,6 +2,11 @@ const button = document.getElementById('button');
 const audioElement = document.getElementById('audio');
 
 
+// Disable-enable Button
+function toggleButton() {
+    button.disabled = !button.disabled;
+}
+
 //Passing Joke to VoiceRSS API
 function tellMe(joke) {
     VoiceRSS.speech({
@@ -27,11 +32,16 @@ async function getJokes () {
         } else {
             joke = data.joke;
         }
+        //Text-to-speech
         tellMe(joke);
+        //Disable button
+        toggleButton();
     } catch (error) {
         //Catch errors
         console.log('whoops', error)
     }
 }
 
-getJokes();
+// Event Listeners
+button.addEventListener('click', getJokes);
+audioElement.addEventListener('ended', toggleButton);
