@@ -28,7 +28,7 @@ const VoiceRSS = {
             if (!a) throw"The browser does not support the audio codec " + e.c
         }
     }, _request: function (e) {
-        var a = this._buildRequest(e), t = this._getXHR();
+        let a = this._buildRequest(e), t = this._getXHR();
         t.onreadystatechange = function () {
             if (4 == t.readyState && 200 == t.status) {
                 if (0 == t.responseText.indexOf("ERROR")) throw t.responseText;
