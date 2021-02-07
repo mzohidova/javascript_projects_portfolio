@@ -82,6 +82,31 @@ a:hover, a:focus {
     border-bottom: 3px solid;
 }
 
+/*Home section*/
+.title-group {
+    text-align: center;
+}
+
+/*About section*/
+.about-container {
+    display: flex;
+}
+
+.image-container {
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 10px 20px;
+    margin-right: 25px;
+    width: auto;
+    background: var(--background);
+    box-shadow: var(--box-shadow);
+}
+
+img {
+    height: 300px;
+    width: 300px;
+}
+
 /*Project section*/
 .buttons {
     margin-top: 15px;
